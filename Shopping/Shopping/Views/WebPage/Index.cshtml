@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (TempData["user"] == null)
+{
+
+    @using (Html.BeginForm("Login", "WebPage", FormMethod.Post))
+    {
+        <input type="submit" value="Login" />
+
+    }
+
+    @using (Html.BeginForm("Register", "WebPage", FormMethod.Post))
+    {
+        <input type="submit" value="Register" />
+    }
+}
+else { 
+
+    <h2>Welcome @TempData["user"]</h2>
+
+    @using (Html.BeginForm("SignOut", "WebPage", FormMethod.Post))
+    { 
+
+        <input type="submit" value="signout"/>
+    }
+}

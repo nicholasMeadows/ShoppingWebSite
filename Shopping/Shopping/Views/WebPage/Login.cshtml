@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model Shopping.Models.UserPassModel;
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+    @if (@Model == null)
+    {
+
+        @if (TempData["err"] != null)
+        {
+            <p style="color:red">Invalid username or password!</p>
+            <h2>@TempData["err"]</h2>
+        }
+        <a>Username: @Html.EditorFor(m => m.username)</a><a style="color:red; font-weight:bold">@Html.ValidationMessageFor(m => m.username)</a>
+        <br />
+        <br />
+        <a>Password: @Html.PasswordFor(m => m.password)</a><a style="color:red; font-weight:bold">@Html.ValidationMessageFor(m => m.password)</a>
+        <br />
+        <br />
+        <input type="submit" value="Login" />
+
+        <input type="button" value="Register" onclick="@("window.location.href='" + @Url.Action("register", "WebPage") + "'");" />
+
+     }
+}
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
