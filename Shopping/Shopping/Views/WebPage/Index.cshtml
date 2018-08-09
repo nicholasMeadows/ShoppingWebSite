@@ -3,6 +3,7 @@
     ViewData["Title"] = "Index";
 }
 
+<h2 id="testH2"></h2>
 @if (TempData["user"] == null)
 {
 
@@ -27,3 +28,7 @@ else {
         <input type="submit" value="signout"/>
     }
 }
+
+<script>
+    document.getById("testH2").innerHTML = "hello world";
+</script>

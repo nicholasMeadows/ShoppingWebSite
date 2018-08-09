@@ -30,6 +30,7 @@ namespace Shopping.Controllers
                 return View("Login");
             }
             else {
+
                 if (ServerSideValidation.ValidateInfo(userPass))
                 {
                     if (UserDatabaseContext.Login(userPass))
@@ -37,8 +38,13 @@ namespace Shopping.Controllers
                         //Use Db context to validate user name and pass
                         TempData["User"] = userPass.username;
 
-                        //return Ok("Logged IN!!");
-                        //return View("Index");
+                        User user = new User();
+                        user.username = userPass.username;
+
+                        user.accessToken = UserDatabaseContext.GenerateAccessToken(userPass.username);
+
+                        HttpContext.Session.SetString("user", JsonConvert.SerializeObject(user));
+
                         return RedirectToAction("Index");
                     }
                     else {
@@ -65,12 +71,22 @@ namespace Shopping.Controllers
             else
             {
                 //User Db context to register user
-                UserDatabaseContext.Register(registerUser);
-                User user = new User();
-                user.username = registerUser.username;
+                if (UserDatabaseContext.CheckUsername(registerUser.username))
+                {                    
+                    UserDatabaseContext.Register(registerUser);
+                    User user = new User();
+                    user.username = registerUser.username;
+                    
+                    user.accessToken = UserDatabaseContext.GenerateAccessToken(registerUser.username);
 
-                HttpContext.Session.SetString("user", JsonConvert.SerializeObject(user));
+                    HttpContext.Session.SetString("user", JsonConvert.SerializeObject(user));
+                }
+                else {
+                    TempData["err"] = "Username already exists";
+                    return View("Register");                    
+                }
             }
+
             UserPassModel userPass = new UserPassModel();
             userPass.username = registerUser.username;
             userPass.password = registerUser.password;

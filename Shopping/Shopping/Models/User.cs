@@ -9,6 +9,7 @@ namespace Shopping.Models
     {
         public string username { get; set; }
         public string role { get; set; }
+        public AccessTokenModel accessToken{get; set;}
         
         //public AccessToken{get;set;}
     }
